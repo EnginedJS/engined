@@ -1,6 +1,6 @@
 {
   "name": "engined",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "implementation for managing internal services",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,8 @@
     "service",
     "engine"
   ],
-  "engines" : {
-    "node" : ">=7.4"
+  "engines": {
+    "node": ">=7.4"
   },
   "author": "Fred Chien <cfsghost@gmail.com>",
   "license": "MIT",
