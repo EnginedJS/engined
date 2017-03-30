@@ -20,7 +20,7 @@ npm install engined
 Here is an example to use engined to manange services:
 
 ```javascript
-const { Manager, Service } = require('../');
+const { Manager, Service } = require('engined');
 
 class MyService extends Service {
 
