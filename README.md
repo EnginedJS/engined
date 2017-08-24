@@ -121,9 +121,17 @@ await serviceManager.stop('MyService1');
 
 ## Accessing Context
 
-Sharing data between services is allowed, just need to save it in context object. `engined.Service` class provide methods for it, service object is able to access context object by inherit from it.
+Sharing data among services is allowed, just save it in the context object. `engined.Manager` and `engined.Service` classes provide a method for accessing the context object.
 
-### Get context in service
+### Get context via service manager
+
+`engined.Manager` provide `getContext` method to get current `Context` instance:
+
+```javascript
+let context = serviceManager.getContext();
+```
+
+### Get context from inside the service
 
 `engined.Service` provide `getContext` method to get current `Context` instance:
 
@@ -145,6 +153,78 @@ Get key/value pairs by calling `get` method.
 
 ```javascript
 let mykey = context.get('mykey');
+```
+
+## Agent Manager
+
+`engined.AgentManager` was designed in order to manage multiple agents. We usually expose agent manager to other services via context object.
+
+Manager service can be implmeneted like below:
+
+```javascript
+class fooManagerService extends Service {
+
+	constructor(context) {
+		super(context);
+
+		this.agentManager = null;
+	}
+
+
+	async start() {
+		this.agentManager = new AgentManager();
+		this.getContext().set('foo', agentManager);
+	}
+
+	async stop() {
+
+		if (this.agentManager === null)
+			return;
+
+		this.getContext().set('foo', null);
+		this.agentManager = null;
+
+	}
+
+```
+
+Then we can implement agent service and register agent in above manager service:
+
+```javascript
+class fooAgentService extends Service {
+
+	constructor(context) {
+		super(context);
+
+		this.agent = null;
+	}
+
+
+	async start() {
+		this.agent = {
+			data: 'Hello'
+		};
+		this.getContext().get('foo').register('AgentA', this.agent);
+	}
+
+	async stop() {
+
+		if (this.agent === null)
+			return;
+
+		this.getContext().get('foo').unregister('AgentA');
+		this.agent = null;
+
+	}
+```
+
+In other services, `getAgent()` is the way to accessing specific agent of manager.
+
+```javascript
+let agent = this.getContext().get('foo').getAgent('AgentA');
+
+console.log(agent.data);
+
 ```
 
 ## License
