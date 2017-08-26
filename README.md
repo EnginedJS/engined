@@ -181,7 +181,7 @@ class fooManagerService extends Service {
 		if (this.agentManager === null)
 			return;
 
-		this.getContext().set('foo', null);
+		this.getContext().remove('foo');
 		this.agentManager = null;
 
 	}
@@ -224,7 +224,14 @@ In other services, `getAgent()` is the way to accessing specific agent of manage
 let agent = this.getContext().get('foo').getAgent('AgentA');
 
 console.log(agent.data);
+```
 
+### Easy way to assert agent manager in context
+
+There is a way to create agent manager then register on context faster.
+
+```javascript
+this.getContext().assert('foo');
 ```
 
 ## License
