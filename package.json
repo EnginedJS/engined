@@ -1,6 +1,6 @@
 {
   "name": "engined",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "implementation for managing internal services",
   "main": "index.js",
   "scripts": {
